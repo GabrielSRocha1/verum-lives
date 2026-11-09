@@ -25,7 +25,7 @@ export const DEFAULT_SETTINGS = {
     whatsappGroup: ''
   },
   tracking: {
-    metaPixelId: '',
+    metaPixelId: '1475798377861041',
     ga4Id: '',
     gtmId: '',
     requireConsent: true
