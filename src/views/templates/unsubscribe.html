@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Preferências de contato — Canal Verum Cripto</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Sora:wght@700;800&display=swap">
+<style nonce="%%NONCE%%">
+%%SHARED_CSS%%
+main{padding:40px 0}
+.box{max-width:560px;margin:0 auto;padding:28px 22px}
+h1{font:800 28px/1.15 var(--font-display);margin:8px 0 12px}
+.opts{display:grid;gap:10px;margin:18px 0}
+.opt{display:flex;gap:12px;align-items:center;padding:14px;border:1px solid var(--line-soft);border-radius:12px;cursor:pointer;background:rgba(255,255,255,.02)}
+.opt input{width:20px;height:20px;accent-color:#D9A94B}
+.opt.danger{border-color:rgba(255,122,122,.35)}
+.done{display:none}
+.ok .form{display:none}.ok .done{display:block}
+.invalid .form{display:none}
+.invalid-msg{display:none}.invalid .invalid-msg{display:block}
+.btn{width:100%}
+</style>
+</head>
+<body class="%%VALID_CLASS%%">
+%%LOGO%%
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="/"><svg class="brand-mark" aria-hidden="true"><use href="#verum-v"/></svg><span class="brand-text"><strong>VERUM</strong><small>CANAL VERUM CRIPTO</small></span></a></div></header>
+<main><div class="wrap"><div class="card box" id="box">
+  <span class="eyebrow">Preferências de contato</span>
+  <h1>Gerenciar seus avisos</h1>
+  <p class="invalid-msg notice">Este link é inválido ou está incompleto. Use o link “Cancelar o recebimento” de uma das nossas mensagens.</p>
+  <div class="form">
+    <p>Escolha o que deseja parar de receber. A mudança vale imediatamente.</p>
+    <div class="opts" role="radiogroup" aria-label="Opções">
+      <label class="opt"><input type="radio" name="ch" value="email" checked> Parar e-mails das lives</label>
+      <label class="opt"><input type="radio" name="ch" value="whatsapp"> Parar mensagens no WhatsApp</label>
+      <label class="opt"><input type="radio" name="ch" value="all"> Parar todos os avisos</label>
+      <label class="opt danger"><input type="radio" name="ch" value="erase"> Excluir todos os meus dados (LGPD)</label>
+    </div>
+    <p class="form-alert" id="err" role="alert" hidden></p>
+    <button class="btn btn-gold" id="go" type="button">Confirmar</button>
+  </div>
+  <div class="done" role="status"><p class="notice" id="done-msg">Pronto! Sua preferência foi registrada.</p><p><a href="/">Voltar ao início</a></p></div>
+</div></div></main>
+%%FOOTER%%
+<script nonce="%%NONCE%%">
+(function () {
+  var token = %%TOKEN_JSON%%;
+  var go = document.getElementById('go'), err = document.getElementById('err');
+  if (!token) return;
+  var MSG = { email: 'Pronto! Você não receberá mais e-mails das lives.', whatsapp: 'Pronto! Você não receberá mais mensagens no WhatsApp.', all: 'Pronto! Todos os avisos foram cancelados.', erase: 'Seus dados foram excluídos de forma definitiva.' };
+  go.addEventListener('click', function () {
+    var ch = document.querySelector('input[name=ch]:checked').value;
+    if (ch === 'erase' && !confirm('Excluir seus dados definitivamente? Esta ação não pode ser desfeita.')) return;
+    go.disabled = true; err.hidden = true;
+    fetch('/api/public/unsubscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t: token, channel: ch }) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.j.error || 'Falha');
+        document.getElementById('done-msg').textContent = MSG[ch];
+        document.body.classList.add('ok');
+      })
+      .catch(function (e) { go.disabled = false; err.hidden = false; err.textContent = e.message || 'Não foi possível concluir. Tente novamente.'; });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Caddy: HTTPS automático (Let's Encrypt), compressão e proxy para o app.
+lives.seudominio.com {
+	encode zstd gzip
+	header -Server
+	reverse_proxy 127.0.0.1:3000 {
+		header_up X-Forwarded-For {remote_host}
+	}
+	log {
+		output file /var/log/caddy/verum-lives.log
+		format json
+	}
+}
+
+# Redireciona www para o domínio principal (mantém a origem única do formulário).
+www.lives.seudominio.com {
+	redir https://lives.seudominio.com{uri} permanent
+}

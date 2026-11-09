@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Inscrição confirmada — BITCOIN: OURO DIGITAL! | Canal Verum Cripto</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#04060D">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&family=Sora:wght@700;800&display=swap">
+<script nonce="%%NONCE%%">window.__BOOT=%%BOOT%%;</script>
+<script nonce="%%NONCE%%">%%TRACKING_JS%%</script>
+<style nonce="%%NONCE%%">
+%%SHARED_CSS%%
+.confirm{padding:34px 0 20px}
+.confirm-card{max-width:640px;margin:0 auto;padding:30px 20px;text-align:center}
+.seal{width:84px;height:84px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#FFF3C4,#E2B657 45%,#8E6623);box-shadow:0 0 0 8px rgba(217,169,75,.12),0 18px 50px -12px rgba(217,169,75,.7);animation:pop .6s cubic-bezier(.2,1.4,.4,1) both}
+.seal svg{width:42px;height:42px;color:#1A1203}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+.confirm h1{font:800 clamp(26px,7vw,40px)/1.12 var(--font-display);margin:0 0 14px;text-transform:uppercase;letter-spacing:-.01em}
+.confirm .msg{font-size:17.5px;color:#DCE3F3;margin:0 auto 24px;max-width:520px}
+.step{display:inline-flex;align-items:center;gap:8px;font:800 12px/1 var(--font-display);letter-spacing:.18em;color:var(--gold);margin-bottom:12px;text-transform:uppercase}
+.optional{color:var(--muted);font-size:14px;margin:12px auto 0;max-width:500px}
+.next{margin:26px auto 0;padding:18px;border-radius:16px;background:rgba(3,6,15,.6);border:1px solid var(--line);max-width:520px}
+.next p{margin:0}
+.next .when{font-weight:700;color:#fff;margin:6px 0 12px}
+.mini{display:flex;gap:8px;justify-content:center;font:700 22px/1 var(--font-mono);color:var(--gold-hi);font-variant-numeric:tabular-nums}
+.mini span{background:rgba(255,255,255,.03);border:1px solid var(--line-soft);border-radius:10px;padding:10px 8px;min-width:58px}
+.mini small{display:block;font:700 9.5px/1 var(--font-display);letter-spacing:.14em;color:var(--dim);margin-top:6px}
+.actions{display:grid;gap:10px;margin:18px auto 0;max-width:520px}
+.actions .btn{width:100%}
+@media (min-width:640px){.confirm-card{padding:44px 40px}.actions{grid-template-columns:1fr 1fr}.actions .full{grid-column:span 2}}
+</style>
+</head>
+<body>
+%%LOGO%%
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/" aria-label="Verum — Canal Verum Cripto">
+      <svg class="brand-mark" aria-hidden="true"><use href="#verum-v"/></svg>
+      <span class="brand-text"><strong>VERUM</strong><small>CANAL VERUM CRIPTO</small></span>
+    </a>
+  </div>
+</header>
+<main class="confirm">
+  <div class="wrap">
+    <div class="card confirm-card">
+      <div class="seal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+      <h1>Parabéns! <span class="gold-text">Sua inscrição foi confirmada.</span></h1>
+      <p class="msg"><strong>%%FIRST_NAME%%</strong>, você está a um passo de participar das nossas transmissões ao vivo sobre Bitcoin, Blockchain, autocustódia e dolarização patrimonial.</p>
+
+      <span class="step">Último passo</span>
+      %%GROUP_BLOCK%%
+      <p class="optional">A participação no grupo é opcional. %%CHANNELS_TEXT%%</p>
+
+      <div class="next">
+        <p class="eyebrow">Próxima transmissão</p>
+        <p class="when" id="cd-when">%%NEXT_LIVE_TEXT%%</p>
+        <div class="mini" role="timer" aria-label="Tempo até a próxima transmissão">
+          <span><b id="cd-d">--</b><small>DIAS</small></span><span><b id="cd-h">--</b><small>HORAS</small></span><span><b id="cd-m">--</b><small>MIN</small></span><span><b id="cd-s">--</b><small>SEG</small></span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn-ghost" href="%%GOOGLE_CAL%%" target="_blank" rel="noopener">Adicionar ao Google Agenda</a>
+        <a class="btn btn-ghost" href="/agenda.ics">Adicionar ao calendário (iPhone/Outlook)</a>
+        <div class="full">%%CHANNEL_LINK%%</div>
+      </div>
+    </div>
+  </div>
+</main>
+%%FOOTER%%
+%%CONSENT_BANNER%%
+<script nonce="%%NONCE%%">
+(function () {
+  var B = window.__BOOT || {};
+  if (B.conversion && window.VerumTrack) window.VerumTrack.conversion(B.conversion.eventId);
+  var g = document.getElementById('group-link');
+  if (g) g.addEventListener('click', function () { (window.dataLayer = window.dataLayer || []).push({ event: 'join_whatsapp_group' }); });
+  var occ = B.occurrences || [];
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function $(id) { return document.getElementById(id); }
+  function tick() {
+    var now = Date.now(), cur = null;
+    for (var i = 0; i < occ.length; i++) if (occ[i].end > now) { cur = occ[i]; break; }
+    if (!cur) return;
+    var s = Math.floor(Math.max(0, cur.start - now) / 1000);
+    $('cd-d').textContent = pad(Math.floor(s / 86400)); $('cd-h').textContent = pad(Math.floor(s % 86400 / 3600));
+    $('cd-m').textContent = pad(Math.floor(s % 3600 / 60)); $('cd-s').textContent = pad(s % 60);
+    if (cur.start <= now) $('cd-when').textContent = 'AO VIVO AGORA — ' + cur.time + ' (' + B.timezoneLabel + ')';
+  }
+  tick(); setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>

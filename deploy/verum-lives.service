@@ -1,0 +1,27 @@
+[Unit]
+Description=Verum Lives — landing de inscrição e lembretes
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=verum
+Group=verum
+WorkingDirectory=/opt/verum-lives
+EnvironmentFile=/opt/verum-lives/.env
+ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning src/server.js
+Restart=always
+RestartSec=3
+# Endurecimento
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/verum-lives
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=true
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=multi-user.target

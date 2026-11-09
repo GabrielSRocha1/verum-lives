@@ -1,0 +1,16 @@
+<svg width="0" height="0" class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBE7A9"/><stop offset=".35" stop-color="#E2B657"/><stop offset=".65" stop-color="#B8862F"/><stop offset="1" stop-color="#F3D27C"/>
+    </linearGradient>
+    <linearGradient id="g-gold-dark" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C99A3E"/><stop offset=".5" stop-color="#8E6623"/><stop offset="1" stop-color="#D9A94B"/>
+    </linearGradient>
+    <symbol id="verum-v" viewBox="0 0 120 100">
+      <polygon points="4,10 40,10 60,40 60,64" fill="url(#g-gold)"/>
+      <polygon points="116,10 80,10 60,40 60,64" fill="url(#g-gold-dark)"/>
+      <polygon points="22,36 38,36 60,72 60,98" fill="url(#g-gold)"/>
+      <polygon points="98,36 82,36 60,72 60,98" fill="url(#g-gold-dark)"/>
+    </symbol>
+  </defs>
+</svg>

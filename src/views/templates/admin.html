@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Painel — Lives Verum</title>
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Sora:wght@700;800&display=swap">
+<style nonce="%%NONCE%%">
+:root{--bg:#060913;--panel:#0B1226;--panel-2:#0F1932;--line:#1C2747;--gold:#D9A94B;--gold-hi:#F3D48A;--text:#E8ECF5;--muted:#93A0BD;--ok:#3BD38A;--err:#FF7A7A;--warn:#F5B94A;
+  --fd:"Sora",system-ui,sans-serif;--fb:"Inter",system-ui,sans-serif;--fm:"JetBrains Mono",ui-monospace,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14.5px/1.5 var(--fb)}
+a{color:var(--gold-hi)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+.sprite{position:absolute;width:0;height:0}
+.hidden{display:none!important}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:var(--panel-2);cursor:pointer;font-weight:600}
+.btn:hover{border-color:var(--gold)}
+.btn-gold{background:linear-gradient(180deg,#F6DE9C,#C8963A);color:#1A1203;border-color:#F6DE9C}
+.btn-danger{border-color:rgba(255,122,122,.5);color:#FFC2C2}
+.btn-sm{min-height:32px;padding:0 10px;font-size:13px}
+.btn[disabled]{opacity:.6;cursor:progress}
+input[type=text],input[type=email],input[type=password],input[type=url],input[type=time],input[type=number],select,textarea{
+  width:100%;min-height:40px;border-radius:10px;border:1px solid var(--line);background:#050812;padding:8px 12px}
+textarea{min-height:140px;resize:vertical;font:13.5px/1.5 var(--fm)}
+label.lbl{display:block;font-weight:600;margin:12px 0 6px;color:#C9D2E6}
+.row{display:grid;gap:12px}
+@media(min-width:760px){.row.c2{grid-template-columns:1fr 1fr}.row.c3{grid-template-columns:repeat(3,1fr)}.row.c4{grid-template-columns:repeat(4,1fr)}}
+/* login */
+.login{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login form{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px}
+.login h1{font:800 20px/1.2 var(--fd);margin:14px 0 4px}
+.mark{width:44px;height:36px}
+/* layout */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:#070B18;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;font:800 14px/1 var(--fd);letter-spacing:.18em}
+.brand small{display:block;font:600 10px/1 var(--fb);letter-spacing:.14em;color:var(--muted);margin-top:4px}
+.who{color:var(--muted);font-size:13px;display:flex;gap:10px;align-items:center}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:8px 14px;border-bottom:1px solid var(--line);background:#070B18}
+.tabs button{border:0;background:none;padding:10px 12px;border-radius:8px;cursor:pointer;color:var(--muted);font-weight:600;white-space:nowrap}
+.tabs button[aria-selected=true]{background:var(--panel-2);color:var(--gold-hi)}
+main{padding:18px;max-width:1280px;margin:0 auto}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+.panel h2{font:800 16px/1.2 var(--fd);margin:0 0 12px}
+.panel h3{font:700 14px/1.2 var(--fd);margin:0 0 8px;color:var(--gold-hi)}
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);margin-bottom:16px}
+@media(min-width:900px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.kpi small{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.kpi b{display:block;font:700 28px/1.1 var(--fm);margin-top:6px;color:#fff}
+.kpi span{color:var(--muted);font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+td.num,th.num{text-align:right;font-family:var(--fm)}
+.scroll{overflow-x:auto}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;border:1px solid var(--line);color:var(--muted)}
+.tag.ok{color:var(--ok);border-color:rgba(59,211,138,.4)}
+.tag.no{color:var(--err);border-color:rgba(255,122,122,.4)}
+.tag.warn{color:var(--warn);border-color:rgba(245,185,74,.4)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.toolbar input,.toolbar select{width:auto;flex:1 1 200px}
+.toolbar #period{flex:0 0 140px}
+.pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px;color:var(--muted)}
+.chart{width:100%;height:180px}
+.chart rect.bar{fill:var(--gold)}
+.chart rect.bar:hover{fill:var(--gold-hi)}
+.chart text{fill:var(--muted);font:11px var(--fb)}
+.chart line{stroke:var(--line)}
+.days{display:flex;flex-wrap:wrap;gap:8px}
+.days label{display:flex;gap:6px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
+.check{display:flex;gap:8px;align-items:center;cursor:pointer}
+.step{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;background:#09101F}
+.step-head{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.help{color:var(--muted);font-size:12.5px}
+.vars code{background:#050812;border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin:2px;display:inline-block;font-size:12px}
+.toast{position:fixed;right:16px;bottom:16px;max-width:380px;padding:12px 16px;border-radius:12px;background:#0F1932;border:1px solid var(--gold);box-shadow:0 10px 40px rgba(0,0,0,.5);z-index:20}
+.toast.err{border-color:var(--err)}
+.err-text{color:var(--err);min-height:20px;margin:8px 0}
+.photo{width:180px;aspect-ratio:4/5;object-fit:cover;border-radius:12px;border:1px solid var(--gold);background:#050812}
+.list{margin:0;padding-left:18px}
+</style>
+</head>
+<body>
+%%LOGO%%
+<section class="login" id="login-view">
+  <form id="login-form" autocomplete="on">
+    <svg class="mark" aria-hidden="true"><use href="#verum-v"/></svg>
+    <h1>Painel das Lives</h1>
+    <p class="help">Acesso restrito à equipe Verum.</p>
+    <label class="lbl" for="l-email">E-mail</label>
+    <input type="email" id="l-email" autocomplete="username" required>
+    <label class="lbl" for="l-pass">Senha</label>
+    <input type="password" id="l-pass" autocomplete="current-password" required>
+    <p class="err-text" id="l-err" role="alert"></p>
+    <button class="btn btn-gold" type="submit" id="l-btn">Entrar</button>
+  </form>
+</section>
+
+<div id="app" class="hidden">
+  <header class="top">
+    <div class="brand"><svg class="mark" aria-hidden="true"><use href="#verum-v"/></svg><div>VERUM<small>LIVES · PAINEL</small></div></div>
+    <div class="who"><span id="who"></span><button class="btn btn-sm" id="logout">Sair</button></div>
+  </header>
+  <nav class="tabs" role="tablist" id="tabs">
+    <button role="tab" data-tab="overview" aria-selected="true">Visão geral</button>
+    <button role="tab" data-tab="subs" data-admin>Inscritos</button>
+    <button role="tab" data-tab="lives" data-admin>Lives e links</button>
+    <button role="tab" data-tab="reminders" data-admin>Lembretes</button>
+    <button role="tab" data-tab="marketing" data-admin>Marketing</button>
+    <button role="tab" data-tab="presenter" data-admin>Apresentador</button>
+    <button role="tab" data-tab="integrations" data-admin>Integrações</button>
+    <button role="tab" data-tab="audit" data-admin>Auditoria</button>
+    <button role="tab" data-tab="account">Conta</button>
+  </nav>
+  <main>
+    <!-- Visão geral -->
+    <section data-view="overview">
+      <div class="toolbar"><label class="help" for="period">Período</label>
+        <select id="period"><option value="7">7 dias</option><option value="30" selected>30 dias</option><option value="90">90 dias</option><option value="365">12 meses</option></select>
+        <button class="btn btn-sm" id="refresh">Atualizar</button><span class="help" id="ov-next"></span></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="panel"><h2>Inscrições por dia</h2><svg class="chart" id="chart" role="img" aria-label="Inscrições por dia"></svg></div>
+      <div class="row c2">
+        <div class="panel"><h2>Inscrições por campanha</h2><div class="scroll"><table><thead><tr><th>Campanha</th><th>Fonte</th><th class="num">Visitantes</th><th class="num">Inscritos</th><th class="num">Conversão</th></tr></thead><tbody id="camp"></tbody></table></div></div>
+        <div class="panel"><h2>Origem dos contatos</h2><table><thead><tr><th>Origem</th><th class="num">Inscritos</th></tr></thead><tbody id="orig"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- Inscritos -->
+    <section data-view="subs" class="hidden">
+      <div class="panel">
+        <div class="toolbar">
+          <input type="text" id="q" placeholder="Buscar por nome, e-mail ou telefone" aria-label="Buscar">
+          <select id="f-camp" aria-label="Filtrar por campanha"><option value="">Todas as campanhas</option></select>
+          <button class="btn" id="export">Exportar CSV</button>
+        </div>
+        <div class="scroll"><table><thead><tr><th>Data</th><th>Nome</th><th>E-mail</th><th>WhatsApp</th><th>Autorizações</th><th>Origem / campanha</th><th></th></tr></thead><tbody id="subs"></tbody></table></div>
+        <div class="pager"><span id="pg-info"></span><button class="btn btn-sm" id="pg-prev">Anterior</button><button class="btn btn-sm" id="pg-next">Próxima</button></div>
+      </div>
+    </section>
+
+    <!-- Lives -->
+    <section data-view="lives" class="hidden">
+      <form class="panel" id="f-schedule">
+        <h2>Agenda das transmissões</h2>
+        <label class="lbl">Dias</label>
+        <div class="days" id="days"></div>
+        <div class="row c4">
+          <div><label class="lbl" for="s-time">Horário</label><input type="time" id="s-time" required></div>
+          <div><label class="lbl" for="s-tz">Fuso horário</label><select id="s-tz"></select></div>
+          <div><label class="lbl" for="s-tzl">Nome do fuso (exibido)</label><input type="text" id="s-tzl" maxlength="60"></div>
+          <div><label class="lbl" for="s-dur">Duração (min)</label><input type="number" id="s-dur" min="15" max="600"></div>
+        </div>
+        <p class="err-text" id="e-schedule"></p>
+        <button class="btn btn-gold">Salvar agenda</button>
+      </form>
+      <form class="panel" id="f-links">
+        <h2>Links</h2>
+        <label class="lbl" for="k-yt">Canal do YouTube</label><input type="url" id="k-yt" placeholder="https://www.youtube.com/@...">
+        <label class="lbl" for="k-live">Link da transmissão (opcional — se vazio, usa o canal)</label><input type="url" id="k-live" placeholder="https://youtube.com/live/...">
+        <label class="lbl" for="k-wa">Convite do grupo do WhatsApp</label><input type="url" id="k-wa" placeholder="https://chat.whatsapp.com/...">
+        <p class="err-text" id="e-links"></p>
+        <button class="btn btn-gold">Salvar links</button>
+      </form>
+    </section>
+
+    <!-- Lembretes -->
+    <section data-view="reminders" class="hidden">
+      <div class="panel"><h2>Sequência de lembretes</h2>
+        <p class="help">Envios respeitam a agenda, o fuso configurado e as autorizações de cada inscrito. Quem se inscreve depois do horário de uma etapa não recebe aquela etapa. No WhatsApp, use modelos aprovados pela Meta; o texto do modelo é editado no Gerenciador do WhatsApp e aqui você define o nome e quais variáveis preenchem {{1}}, {{2}}…</p>
+        <p class="help vars" id="vars"></p>
+        <h3>Próximos envios programados</h3><ul class="list help" id="plan"></ul>
+      </div>
+      <form id="f-reminders"><div id="steps"></div><p class="err-text" id="e-reminders"></p><button class="btn btn-gold">Salvar lembretes</button></form>
+    </section>
+
+    <!-- Marketing -->
+    <section data-view="marketing" class="hidden">
+      <form class="panel" id="f-tracking">
+        <h2>Rastreamento</h2>
+        <div class="row c3">
+          <div><label class="lbl" for="t-px">Meta Pixel ID</label><input type="text" id="t-px" inputmode="numeric" placeholder="123456789012345"></div>
+          <div><label class="lbl" for="t-ga">Google Analytics 4</label><input type="text" id="t-ga" placeholder="G-XXXXXXX"></div>
+          <div><label class="lbl" for="t-gtm">Google Tag Manager</label><input type="text" id="t-gtm" placeholder="GTM-XXXXXX"></div>
+        </div>
+        <p><label class="check"><input type="checkbox" id="t-consent"> Exigir aceite de cookies antes de ativar a medição (recomendado pela LGPD)</label></p>
+        <p class="help">Eventos: PageView ao abrir a página; CompleteRegistration (Meta), sign_up (GA4) e complete_registration (dataLayer/GTM) somente na página de confirmação de uma inscrição nova, uma única vez, com event_id para deduplicação. Se usar GA4 dentro do GTM, deixe o campo GA4 vazio para não contar em dobro.</p>
+        <p class="err-text" id="e-tracking"></p>
+        <button class="btn btn-gold">Salvar</button>
+      </form>
+    </section>
+
+    <!-- Apresentador -->
+    <section data-view="presenter" class="hidden">
+      <div class="panel"><h2>Foto do apresentador</h2>
+        <p class="help">Envie uma foto em boa resolução (retrato). Ela será recortada em 4:5 e otimizada em WebP (800×1000) antes do envio.</p>
+        <div class="row c2"><div><img class="photo hidden" id="ph-img" alt="Foto atual"><p class="help" id="ph-none">Sem foto: a página exibe o monograma “AR”.</p></div>
+        <div><input type="file" id="ph-file" accept="image/jpeg,image/png,image/webp"><p class="err-text" id="e-photo"></p><button class="btn btn-danger btn-sm hidden" id="ph-del">Remover foto</button></div></div>
+      </div>
+    </section>
+
+    <!-- Integrações -->
+    <section data-view="integrations" class="hidden">
+      <div class="panel"><h2>Status</h2><div class="scroll"><table><thead><tr><th>Integração</th><th>Status</th><th>Variáveis faltando</th></tr></thead><tbody id="int-status"></tbody></table></div>
+        <p class="help" id="int-hooks"></p></div>
+      <div class="row c2">
+        <div class="panel"><h2>Envios por canal</h2><table><thead><tr><th>Canal</th><th>Status</th><th class="num">Qtde</th></tr></thead><tbody id="int-deliv"></tbody></table></div>
+        <div class="panel"><h2>Lembretes disparados</h2><table><thead><tr><th>Live</th><th>Etapa</th><th class="num">Na fila</th></tr></thead><tbody id="int-runs"></tbody></table></div>
+      </div>
+      <div class="panel"><h2>Falhas e envios ignorados recentes</h2><div class="scroll"><table><thead><tr><th>Canal</th><th>Etapa</th><th>Status</th><th>Motivo</th></tr></thead><tbody id="int-fail"></tbody></table></div></div>
+    </section>
+
+    <!-- Auditoria -->
+    <section data-view="audit" class="hidden">
+      <div class="panel"><h2>Trilha de auditoria</h2><div class="scroll"><table><thead><tr><th>Quando</th><th>Quem</th><th>Ação</th><th>Detalhe</th></tr></thead><tbody id="audit"></tbody></table></div></div>
+    </section>
+
+    <!-- Conta -->
+    <section data-view="account" class="hidden">
+      <form class="panel" id="f-pass"><h2>Trocar senha</h2>
+        <div class="row c2"><div><label class="lbl" for="p-cur">Senha atual</label><input type="password" id="p-cur" autocomplete="current-password" required></div>
+        <div><label class="lbl" for="p-new">Nova senha (mín. 12, 3 tipos de caractere)</label><input type="password" id="p-new" autocomplete="new-password" required></div></div>
+        <p class="err-text" id="e-pass"></p><button class="btn btn-gold">Alterar senha</button></form>
+    </section>
+  </main>
+</div>
+
+<script nonce="%%NONCE%%">
+(function () {
+  'use strict';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var CSRF = null, ME = null, SETTINGS = null, page = 1, total = 0, PAGE_SIZE = 25;
+  var DAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  var TZS = ['America/Sao_Paulo', 'America/Asuncion', 'America/Manaus', 'America/Cuiaba', 'America/Fortaleza', 'America/Recife', 'America/Belem', 'America/Bahia', 'America/Rio_Branco', 'America/Noronha', 'America/Argentina/Buenos_Aires', 'America/Montevideo', 'America/Santiago', 'America/Bogota', 'America/Mexico_City', 'America/New_York', 'Europe/Lisbon', 'Europe/Madrid', 'UTC'];
+  var pct = function (x) { return x == null ? '—' : (x * 100).toFixed(1).replace('.', ',') + '%'; };
+  var fmtN = function (n) { return Number(n || 0).toLocaleString('pt-BR'); };
+  var fmtDate = function (ms) { return new Date(ms).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }); };
+
+  function toast(msg, err) {
+    var t = document.createElement('div'); t.className = 'toast' + (err ? ' err' : ''); t.setAttribute('role', 'status'); t.textContent = msg;
+    document.body.appendChild(t); setTimeout(function () { t.remove(); }, 4000);
+  }
+  function api(method, url, body, raw) {
+    var headers = {};
+    if (CSRF) headers['X-CSRF-Token'] = CSRF;
+    if (body !== undefined && !raw) headers['Content-Type'] = 'application/json';
+    if (raw) headers['Content-Type'] = 'application/octet-stream';
+    return fetch(url, { method: method, headers: headers, body: raw ? body : (body !== undefined ? JSON.stringify(body) : undefined), credentials: 'same-origin' })
+      .then(function (r) {
+        if (r.status === 401) { showLogin(); throw new Error('Sessão expirada.'); }
+        var ct = r.headers.get('content-type') || '';
+        if (ct.indexOf('application/json') > -1) return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Erro'); return j; });
+        if (!r.ok) throw new Error('Erro ' + r.status);
+        return r;
+      });
+  }
+
+  /* ---------- Sessão ---------- */
+  function showLogin() { $('#app').classList.add('hidden'); $('#login-view').classList.remove('hidden'); CSRF = null; }
+  function start(me, csrf) {
+    ME = me; CSRF = csrf;
+    $('#login-view').classList.add('hidden'); $('#app').classList.remove('hidden');
+    $('#who').textContent = me.email + ' · ' + (me.role === 'admin' ? 'Administrador' : 'Leitura');
+    $$('[data-admin]').forEach(function (b) { b.classList.toggle('hidden', me.role !== 'admin'); });
+    show('overview');
+    if (me.role === 'admin') loadSettings();
+  }
+  $('#login-form').addEventListener('submit', function (e) {
+    e.preventDefault(); $('#l-err').textContent = ''; $('#l-btn').disabled = true;
+    api('POST', '/api/admin/login', { email: $('#l-email').value, password: $('#l-pass').value })
+      .then(function (j) { $('#l-pass').value = ''; start(j.admin, j.csrf); })
+      .catch(function (err) { $('#l-err').textContent = err.message; })
+      .then(function () { $('#l-btn').disabled = false; });
+  });
+  $('#logout').addEventListener('click', function () { api('POST', '/api/admin/logout').catch(function () {}).then(showLogin); });
+  fetch('/api/admin/me', { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) { if (j && j.ok) start(j.admin, j.csrf); });
+
+  /* ---------- Abas ---------- */
+  var loaders = {};
+  function show(tab) {
+    $$('#tabs button').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.tab === tab)); });
+    $$('[data-view]').forEach(function (v) { v.classList.toggle('hidden', v.dataset.view !== tab); });
+    if (loaders[tab]) loaders[tab]();
+  }
+  $('#tabs').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) show(b.dataset.tab); });
+
+  /* ---------- Visão geral ---------- */
+  var OV = null;
+  loaders.overview = function () {
+    api('GET', '/api/admin/overview?days=' + $('#period').value).then(function (j) {
+      OV = j; var t = j.totals;
+      var k = [
+        ['Total de inscritos', fmtN(t.subscribers), 'ativos'], ['Hoje', fmtN(t.today), 'novas inscrições'],
+        ['Últimos 7 dias', fmtN(t.last7), 'novas inscrições'], ['Taxa de conversão', pct(t.conversionRate), fmtN(t.period) + ' inscritos / ' + fmtN(t.visitors) + ' visitantes'],
+        ['Visitantes únicos', fmtN(t.visitors), 'no período'], ['Inscritos no período', fmtN(t.period), j.periodDays + ' dias'],
+        ['Autorizam e-mail', fmtN(t.consentEmail), pct(t.subscribers ? t.consentEmail / t.subscribers : null)], ['Autorizam WhatsApp', fmtN(t.consentWhatsapp), pct(t.subscribers ? t.consentWhatsapp / t.subscribers : null)]
+      ];
+      $('#kpis').innerHTML = k.map(function (x) { return '<div class="kpi"><small>' + esc(x[0]) + '</small><b>' + esc(x[1]) + '</b><span>' + esc(x[2]) + '</span></div>'; }).join('');
+      $('#ov-next').textContent = j.next && j.next[0] ? 'Próxima live: ' + j.next[0].weekday + ', ' + j.next[0].date + ' às ' + j.next[0].time : '';
+      chart(j.series);
+      $('#camp').innerHTML = j.campaigns.map(function (c) { return '<tr><td>' + esc(c.campaign) + '</td><td>' + esc(c.source || '—') + '</td><td class="num">' + fmtN(c.visitors) + '</td><td class="num">' + fmtN(c.registrations) + '</td><td class="num">' + pct(c.conversionRate) + '</td></tr>'; }).join('') || '<tr><td colspan="5" class="help">Sem dados no período.</td></tr>';
+      $('#orig').innerHTML = j.origins.map(function (o) { return '<tr><td>' + esc(o.origin) + '</td><td class="num">' + fmtN(o.c) + '</td></tr>'; }).join('') || '<tr><td colspan="2" class="help">Sem inscritos ainda.</td></tr>';
+      var sel = $('#f-camp'), cur = sel.value;
+      sel.innerHTML = '<option value="">Todas as campanhas</option>' + j.campaigns.map(function (c) { return '<option>' + esc(c.campaign) + '</option>'; }).join('');
+      sel.value = cur;
+    }).catch(function (e) { toast(e.message, true); });
+  };
+  $('#period').addEventListener('change', loaders.overview);
+  $('#refresh').addEventListener('click', loaders.overview);
+  function chart(series) {
+    var svg = $('#chart'), W = svg.clientWidth || 800, H = 180, pad = 24, n = series.length;
+    var max = Math.max(1, Math.max.apply(null, series.map(function (s) { return s.registrations; })));
+    var bw = (W - pad * 2) / n, out = '<line x1="' + pad + '" y1="' + (H - pad) + '" x2="' + (W - pad) + '" y2="' + (H - pad) + '"/>';
+    out += '<text x="' + pad + '" y="12">' + max + '</text>';
+    series.forEach(function (s, i) {
+      var h = (H - pad * 2) * s.registrations / max, x = pad + i * bw + bw * .15, y = H - pad - h;
+      out += '<rect class="bar" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + Math.max(1, bw * .7).toFixed(1) + '" height="' + Math.max(h, s.registrations ? 2 : 0).toFixed(1) + '" rx="2"><title>' + esc(s.day.split('-').reverse().join('/')) + ': ' + s.registrations + ' inscrições · ' + s.visitors + ' visitantes</title></rect>';
+      if (i === 0 || i === n - 1 || i === Math.floor(n / 2)) out += '<text x="' + (pad + i * bw) + '" y="' + (H - 6) + '">' + esc(s.day.slice(8) + '/' + s.day.slice(5, 7)) + '</text>';
+    });
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.innerHTML = out;
+  }
+
+  /* ---------- Inscritos ---------- */
+  function subsQuery() { return 'q=' + encodeURIComponent($('#q').value) + '&campaign=' + encodeURIComponent($('#f-camp').value); }
+  loaders.subs = function () {
+    api('GET', '/api/admin/subscribers?page=' + page + '&pageSize=' + PAGE_SIZE + '&' + subsQuery()).then(function (j) {
+      total = j.total;
+      $('#subs').innerHTML = j.rows.map(function (r) {
+        return '<tr><td>' + esc(r.createdAtLabel) + '</td><td>' + esc(r.name) + '</td><td>' + esc(r.email) + '</td><td>' + esc(r.phone) + '</td><td>' +
+          '<span class="tag ' + (r.consentEmail ? 'ok' : 'no') + '">e-mail</span> <span class="tag ' + (r.consentWhatsapp ? 'ok' : 'no') + '">WhatsApp</span></td><td>' +
+          esc(r.origin) + (r.utm_campaign ? '<br><span class="help">' + esc(r.utm_campaign) + '</span>' : '') + '</td><td><button class="btn btn-sm btn-danger" data-del="' + r.id + '">Excluir</button></td></tr>';
+      }).join('') || '<tr><td colspan="7" class="help">Nenhum inscrito encontrado.</td></tr>';
+      var pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      $('#pg-info').textContent = fmtN(total) + ' inscritos · página ' + page + ' de ' + pages;
+      $('#pg-prev').disabled = page <= 1; $('#pg-next').disabled = page >= pages;
+    }).catch(function (e) { toast(e.message, true); });
+  };
+  var qTimer; $('#q').addEventListener('input', function () { clearTimeout(qTimer); qTimer = setTimeout(function () { page = 1; loaders.subs(); }, 350); });
+  $('#f-camp').addEventListener('change', function () { page = 1; loaders.subs(); });
+  $('#pg-prev').addEventListener('click', function () { page--; loaders.subs(); });
+  $('#pg-next').addEventListener('click', function () { page++; loaders.subs(); });
+  $('#subs').addEventListener('click', function (e) {
+    var id = e.target.getAttribute('data-del'); if (!id) return;
+    if (!confirm('Excluir definitivamente os dados pessoais deste inscrito? (LGPD)')) return;
+    api('DELETE', '/api/admin/subscribers/' + id).then(function () { toast('Inscrito excluído.'); loaders.subs(); }).catch(function (er) { toast(er.message, true); });
+  });
+  $('#export').addEventListener('click', function () {
+    var b = this; b.disabled = true;
+    api('GET', '/api/admin/subscribers.csv?' + subsQuery()).then(function (r) {
+      var name = ((r.headers.get('content-disposition') || '').match(/filename="([^"]+)"/) || [])[1] || 'inscritos.csv';
+      return r.blob().then(function (blob) { var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000); });
+    }).catch(function (e) { toast(e.message, true); }).then(function () { b.disabled = false; });
+  });
+
+  /* ---------- Configurações ---------- */
+  function loadSettings() {
+    return api('GET', '/api/admin/settings').then(function (j) {
+      SETTINGS = j.settings; var s = SETTINGS.schedule, l = SETTINGS.links, t = SETTINGS.tracking;
+      $('#days').innerHTML = DAYS.map(function (d, i) { return '<label><input type="checkbox" value="' + i + '"' + (s.days.indexOf(i) > -1 ? ' checked' : '') + '> ' + d + '</label>'; }).join('');
+      var tzs = TZS.indexOf(s.timezone) > -1 ? TZS : [s.timezone].concat(TZS);
+      $('#s-tz').innerHTML = tzs.map(function (z) { return '<option' + (z === s.timezone ? ' selected' : '') + '>' + esc(z) + '</option>'; }).join('');
+      $('#s-time').value = s.time; $('#s-tzl').value = s.timezoneLabel; $('#s-dur').value = s.durationMinutes;
+      $('#k-yt').value = l.youtubeChannel; $('#k-live').value = l.liveUrl; $('#k-wa').value = l.whatsappGroup;
+      $('#t-px').value = t.metaPixelId; $('#t-ga').value = t.ga4Id; $('#t-gtm').value = t.gtmId; $('#t-consent').checked = t.requireConsent;
+      $('#vars').innerHTML = 'Variáveis: ' + j.templateVars.map(function (v) { return '<code>{{' + esc(v) + '}}</code>'; }).join('');
+      renderSteps(SETTINGS.reminders.steps, j.templateVars);
+      renderPhoto(SETTINGS.presenter.photo);
+    }).catch(function (e) { toast(e.message, true); });
+  }
+  function save(section, body, errEl) {
+    $(errEl).textContent = '';
+    return api('PUT', '/api/admin/settings/' + section, body).then(function () { toast('Salvo com sucesso.'); return loadSettings(); })
+      .catch(function (e) { $(errEl).textContent = e.message; });
+  }
+  $('#f-schedule').addEventListener('submit', function (e) {
+    e.preventDefault();
+    save('schedule', { days: $$('#days input:checked').map(function (c) { return +c.value; }), time: $('#s-time').value, timezone: $('#s-tz').value, timezoneLabel: $('#s-tzl').value, durationMinutes: +$('#s-dur').value }, '#e-schedule');
+  });
+  $('#f-links').addEventListener('submit', function (e) { e.preventDefault(); save('links', { youtubeChannel: $('#k-yt').value.trim(), liveUrl: $('#k-live').value.trim(), whatsappGroup: $('#k-wa').value.trim() }, '#e-links'); });
+  $('#f-tracking').addEventListener('submit', function (e) { e.preventDefault(); save('tracking', { metaPixelId: $('#t-px').value.trim(), ga4Id: $('#t-ga').value.trim(), gtmId: $('#t-gtm').value.trim(), requireConsent: $('#t-consent').checked }, '#e-tracking'); });
+
+  function offsetText(m) { if (m == null) return 'Imediatamente após a inscrição'; if (m === 0) return 'No horário da live'; var a = -m; return a % 1440 === 0 ? (a / 1440) + ' dia(s) antes' : a % 60 === 0 ? (a / 60) + ' hora(s) antes' : a + ' minutos antes'; }
+  function renderSteps(steps, vars) {
+    $('#steps').innerHTML = steps.map(function (s, i) {
+      return '<div class="step" data-key="' + esc(s.key) + '">' +
+        '<div class="step-head"><label class="check"><input type="checkbox" data-f="enabled"' + (s.enabled ? ' checked' : '') + '> <strong>' + esc(s.label) + '</strong></label><span class="tag">' + esc(offsetText(s.offsetMinutes)) + '</span></div>' +
+        '<div class="row c4">' +
+        (s.key === 'confirmation' ? '<div><label class="lbl">Quando</label><input type="text" value="Imediato" disabled></div>' : '<div><label class="lbl">Minutos antes da live</label><input type="number" min="0" max="20160" data-f="before" value="' + (-s.offsetMinutes) + '"></div>') +
+        '<div><label class="lbl">Canais</label><label class="check"><input type="checkbox" data-f="ch-email"' + (s.channels.email ? ' checked' : '') + '> E-mail</label> <label class="check"><input type="checkbox" data-f="ch-wa"' + (s.channels.whatsapp ? ' checked' : '') + '> WhatsApp</label></div>' +
+        '<div><label class="lbl">Modelo WhatsApp (nome)</label><input type="text" data-f="wa-tpl" value="' + esc(s.whatsapp.template) + '" placeholder="ex.: lembrete_live_d1"></div>' +
+        '<div><label class="lbl">Idioma · variáveis {{1}}, {{2}}…</label><input type="text" data-f="wa-lang" value="' + esc(s.whatsapp.language) + '"><input type="text" data-f="wa-params" value="' + esc(s.whatsapp.params.join(', ')) + '" title="Variáveis separadas por vírgula"></div>' +
+        '</div>' +
+        '<label class="lbl">Assunto do e-mail</label><input type="text" data-f="subject" maxlength="200" value="' + esc(s.email.subject) + '">' +
+        '<label class="lbl">Texto do e-mail</label><textarea data-f="body" maxlength="5000">' + esc(s.email.body) + '</textarea>' +
+        '<p><button type="button" class="btn btn-sm" data-test="' + esc(s.key) + '">Enviar teste para meu e-mail</button></p></div>';
+    }).join('');
+  }
+  $('#steps').addEventListener('click', function (e) {
+    var k = e.target.getAttribute('data-test'); if (!k) return;
+    var b = e.target; b.disabled = true;
+    api('POST', '/api/admin/test-email', { step: k }).then(function (j) { toast('Teste enviado para ' + j.to + ' (versão salva da etapa).'); }).catch(function (er) { toast(er.message, true); }).then(function () { b.disabled = false; });
+  });
+  $('#f-reminders').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var steps = $$('#steps .step').map(function (el) {
+      var f = function (n) { return el.querySelector('[data-f="' + n + '"]'); };
+      var orig = SETTINGS.reminders.steps.filter(function (s) { return s.key === el.dataset.key; })[0];
+      return {
+        key: el.dataset.key, label: orig.label, enabled: f('enabled').checked,
+        offsetMinutes: el.dataset.key === 'confirmation' ? null : -Math.abs(parseInt(f('before').value, 10) || 0),
+        channels: { email: f('ch-email').checked, whatsapp: f('ch-wa').checked },
+        email: { subject: f('subject').value, body: f('body').value },
+        whatsapp: { template: f('wa-tpl').value.trim(), language: f('wa-lang').value.trim() || 'pt_BR', params: f('wa-params').value.split(',').map(function (x) { return x.trim(); }).filter(Boolean) }
+      };
+    });
+    save('reminders', { steps: steps }, '#e-reminders').then(loadPlan);
+  });
+  function loadPlan() {
+    return api('GET', '/api/admin/integrations').then(function (j) {
+      $('#plan').innerHTML = j.plan.map(function (p) { return '<li>' + esc(fmtDate(p.at)) + ' — ' + esc(p.label) + ' (' + esc(p.channels.join(' + ') || 'nenhum canal') + ')</li>'; }).join('') || '<li>Nenhum envio programado.</li>';
+      return j;
+    });
+  }
+  loaders.reminders = function () { loadPlan().catch(function (e) { toast(e.message, true); }); };
+
+  /* ---------- Foto ---------- */
+  function renderPhoto(src) {
+    $('#ph-img').classList.toggle('hidden', !src); $('#ph-none').classList.toggle('hidden', !!src); $('#ph-del').classList.toggle('hidden', !src);
+    if (src) $('#ph-img').src = src;
+  }
+  $('#ph-file').addEventListener('change', function () {
+    var file = this.files[0]; $('#e-photo').textContent = ''; if (!file) return;
+    var img = new Image(), url = URL.createObjectURL(file);
+    img.onload = function () {
+      var W = 800, H = 1000, c = document.createElement('canvas'); c.width = W; c.height = H;
+      var r = Math.max(W / img.width, H / img.height), w = img.width * r, h = img.height * r;
+      c.getContext('2d').drawImage(img, (W - w) / 2, (H - h) / 3, w, h);
+      URL.revokeObjectURL(url);
+      c.toBlob(function (blob) {
+        if (!blob) { $('#e-photo').textContent = 'Não foi possível processar a imagem.'; return; }
+        api('POST', '/api/admin/presenter-photo', blob, true).then(function (j) { renderPhoto(j.photo); toast('Foto atualizada.'); }).catch(function (e) { $('#e-photo').textContent = e.message; });
+      }, 'image/webp', .86);
+    };
+    img.onerror = function () { $('#e-photo').textContent = 'Arquivo de imagem inválido.'; };
+    img.src = url;
+  });
+  $('#ph-del').addEventListener('click', function () { api('DELETE', '/api/admin/presenter-photo').then(function () { renderPhoto(''); toast('Foto removida.'); }).catch(function (e) { toast(e.message, true); }); });
+
+  /* ---------- Integrações ---------- */
+  var STATUS = { sent: 'enviado', failed: 'falhou', skipped: 'ignorado', pending: 'na fila', sending: 'enviando' };
+  loaders.integrations = function () {
+    loadPlan().then(function (j) {
+      var rows = j.channels.map(function (c) { return [c.label, c.configured, c.missing]; })
+        .concat(j.integrations.map(function (i) { return [i.name === 'n8n' ? 'n8n (eventos)' : 'Brevo (lista de contatos)', i.configured, i.missing]; }))
+        .concat([['Cloudflare Turnstile (antispam)', j.turnstile.configured, j.turnstile.configured ? [] : ['TURNSTILE_SITE_KEY', 'TURNSTILE_SECRET_KEY']]]);
+      $('#int-status').innerHTML = rows.map(function (r) { return '<tr><td>' + esc(r[0]) + '</td><td><span class="tag ' + (r[1] ? 'ok' : 'warn') + '">' + (r[1] ? 'Configurado' : 'Não configurado') + '</span></td><td>' + esc((r[2] || []).join(', ') || '—') + '</td></tr>'; }).join('');
+      $('#int-hooks').innerHTML = 'Webhook do WhatsApp (Meta): <code>' + esc(j.webhooks.whatsapp) + '</code>' + (j.webhooks.brevo ? '<br>Webhook da Brevo: <code>' + esc(j.webhooks.brevo) + '</code>' : '');
+      $('#int-deliv').innerHTML = j.deliveries.byStatus.map(function (d) { return '<tr><td>' + esc(d.channel) + '</td><td>' + esc(STATUS[d.status] || d.status) + '</td><td class="num">' + fmtN(d.c) + '</td></tr>'; }).join('') || '<tr><td colspan="3" class="help">Nenhum envio ainda.</td></tr>';
+      $('#int-runs').innerHTML = j.deliveries.runs.map(function (r) { return '<tr><td>' + esc(fmtDate(Date.parse(r.occurrence))) + '</td><td>' + esc(r.step_key) + '</td><td class="num">' + fmtN(r.queued) + '</td></tr>'; }).join('') || '<tr><td colspan="3" class="help">Nenhum lembrete disparado ainda.</td></tr>';
+      $('#int-fail').innerHTML = j.deliveries.recentFailures.map(function (f) { return '<tr><td>' + esc(f.channel) + '</td><td>' + esc(f.step_key) + '</td><td>' + esc(STATUS[f.status] || f.status) + '</td><td>' + esc(f.last_error || '') + '</td></tr>'; }).join('') || '<tr><td colspan="4" class="help">Sem falhas.</td></tr>';
+    }).catch(function (e) { toast(e.message, true); });
+  };
+
+  /* ---------- Auditoria e conta ---------- */
+  loaders.audit = function () {
+    api('GET', '/api/admin/audit').then(function (j) {
+      $('#audit').innerHTML = j.rows.map(function (r) { return '<tr><td>' + esc(fmtDate(r.at)) + '</td><td>' + esc(r.admin_email || 'sistema/visitante') + '</td><td>' + esc(r.action) + '</td><td class="help">' + esc(r.detail || '') + '</td></tr>'; }).join('');
+    }).catch(function (e) { toast(e.message, true); });
+  };
+  $('#f-pass').addEventListener('submit', function (e) {
+    e.preventDefault(); $('#e-pass').textContent = '';
+    api('POST', '/api/admin/password', { current: $('#p-cur').value, next: $('#p-new').value })
+      .then(function () { toast('Senha alterada. Entre novamente.'); showLogin(); })
+      .catch(function (er) { $('#e-pass').textContent = er.message; });
+  });
+})();
+</script>
+</body>
+</html>

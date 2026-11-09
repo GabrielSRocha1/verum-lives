@@ -1,0 +1,22 @@
+{
+  "name": "verum-lives",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page de inscrição — Bitcoin: Ouro Digital! (Canal Verum Cripto) com backend, lembretes e painel administrativo",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "dev": "NODE_ENV=development node --disable-warning=ExperimentalWarning --watch src/server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 \"test/*.test.js\"",
+    "test:browser": "node --disable-warning=ExperimentalWarning scripts/e2e-browser.mjs",
+    "admin:create": "node --disable-warning=ExperimentalWarning scripts/create-admin.js",
+    "keys:generate": "node scripts/generate-keys.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.0"
+  }
+}
